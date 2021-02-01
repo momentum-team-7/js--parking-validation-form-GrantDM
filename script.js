@@ -1,4 +1,4 @@
-console.log('Add validation!');
+ console.log('Add validation!');
 const form = document.querySelector('#parking-form')
 
 let formIsValid
@@ -55,20 +55,38 @@ function price() {
     for (let index = 1; index <= numDays; index++) { // this will allow us to continue iterating upon 
     // the array for the right amount of days
         day = new Date(day.setDate(day.getDate() + 1))
-        console.log('testing day code ', day) // 
         days.push(day.getDay()) // pushing the day variable into the days array
     }
-    console.log('days array test ', days)
-    let mappedAndReducedDays = days
+    // if we wanted to do the map as a loop 
+    return days
         .map(day => (day > 0 && day < 6 ? 5:7))
         .reduce((fullprice, cost) => {
             return (fullprice += cost)
             }, 0)
-    return mappedAndReducedDays
 }
 
+function validateCardNumber(number) {
+    var regex = new RegExp("^[0-9]{16}$");
+    if (!regex.test(number))
+        return false;
 
+    return luhnCheck(number);
+}
 
+function luhnCheck(val) {
+    var sum = 0;
+    for (var i = 0; i < val.length; i++) {
+        var intVal = parseInt(val.substr(i, 1));
+        if (i % 2 == 0) {
+            intVal *= 2;
+            if (intVal > 9) {
+                intVal = 1 + (intVal % 10);
+            }
+        }
+        sum += intVal;
+    }
+    return (sum % 10) == 0;
+}
 
 
 //Amy's way
